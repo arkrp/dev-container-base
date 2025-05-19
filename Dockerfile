@@ -10,6 +10,7 @@ RUN apt-get -y install git
 RUN apt-get -y install curl
 RUN apt-get -y install nano
 RUN apt-get -y install tmux
+RUN apt-get -y install python3.12-venv
 
 #create the user account
 ARG USER_NAME="hannahnelson"
