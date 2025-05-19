@@ -21,6 +21,8 @@ RUN echo "$USER_NAME:$USER_PASSWORD" | chpasswd
 #set up the user's home
 RUN mkdir /home/${USER_NAME}
 RUN chown hannahnelson /home/${USER_NAME}
+RUN mkdir /home/${USER_NAME}/workspace
+RUN chown hannahnelson /home/${USER_NAME}/workspace
 RUN touch /home/${USER_NAME}/.hushlogin
 RUN echo "PS1='\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /etc/bash.bashrc
 RUN chsh -s /usr/bin/bash ${USER_NAME}
