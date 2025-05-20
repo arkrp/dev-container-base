@@ -15,6 +15,9 @@ RUN apt-get -y install python3.12-venv
 #create the user account
 ARG USER_NAME="hannahnelson"
 ARG USER_PASSWORD="palp"
+ARG USER_EMAIL="nexec64@gmail.com"
+ARG USER_FULL_NAME="Hannah Nelson"
+
 RUN useradd ${USER_NAME}
 RUN usermod -aG sudo ${USER_NAME}
 RUN echo "$USER_NAME:$USER_PASSWORD" | chpasswd
@@ -26,6 +29,8 @@ RUN mkdir /home/${USER_NAME}/workspace
 RUN chown hannahnelson /home/${USER_NAME}/workspace
 RUN touch /home/${USER_NAME}/.hushlogin
 RUN echo "PS1='\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /etc/bash.bashrc
+RUN echo "LS_COLORS=$LS_COLORS:':di=0;93:*.png=1;31;107:' ; export LS_COLORS" >> /etc/bash.bashrc
+RUN echo "alias ls=\"ls --color\"" >> /etc/bash.bashrc
 RUN chsh -s /usr/bin/bash ${USER_NAME}
 
 #configure nvim
@@ -37,6 +42,13 @@ RUN sudo -u hannahnelson nvim +q #it doesn't work the first time so turn it on a
 #configure ssh and X11 forwarding!
 RUN mkdir /var/run/sshd
 RUN echo "ForwardX11 yes" >> /etc/ssh/ssh_config
+RUN mkdir /home/${USER_NAME}/.ssh
+RUN chown hannahnelson /home/${USER_NAME}/.ssh
+
+#configure git for you!
+RUN sudo -u hannahnelson git config --global user.email "${USER_EMAIL}"
+RUN sudo -u hannahnelson git config --global user.name "${USER_FULL_NAME}"
+RUN sudo -u hannahnelson git config --global core.editor "nvim"
 
 #open the ports!
 EXPOSE 22
