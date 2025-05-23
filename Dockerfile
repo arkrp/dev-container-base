@@ -11,6 +11,9 @@ RUN apt-get -y install curl
 RUN apt-get -y install nano
 RUN apt-get -y install tmux
 RUN apt-get -y install python3.12-venv
+RUN apt-get -y install fzf
+RUN apt-get -y install feh
+RUN apt-get -y install build-essential
 
 #create the user account
 ARG USER_NAME="hannahnelson"
