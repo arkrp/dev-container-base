@@ -14,6 +14,7 @@ RUN apt-get -y install python3.12-venv
 RUN apt-get -y install fzf
 RUN apt-get -y install feh
 RUN apt-get -y install build-essential
+RUN apt-get -y install python3-tk
 
 #create the user account
 ARG USER_NAME="hannahnelson"
@@ -40,7 +41,8 @@ RUN chsh -s /usr/bin/bash ${USER_NAME}
 RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config
 RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config/nvim
 RUN sudo -u hannahnelson git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim
-RUN sudo -u hannahnelson nvim +q #it doesn't work the first time so turn it on and off again
+RUN sudo -u hannahnelson nvim +q #this is needed to make the plugins work
+RUN sudo -u hannahnelson nvim +PlugInstall +qa #install the nvim plugins
 
 #configure ssh and X11 forwarding!
 RUN mkdir /var/run/sshd

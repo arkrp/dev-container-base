@@ -4,7 +4,7 @@ To get started, get the repo and build the docker image!
 
  >   git clone https://github.com/arkrp/dev-container-base.git
  >   cd dev-container-base
- >   docker build -t dev-countainer-base
+ >   docker build -t dev-countainer-base .
 
 After that, whenever you need to spin up your development environment simply type the following two commands into any X11 enabled terminal.
 
