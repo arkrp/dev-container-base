@@ -15,6 +15,7 @@ RUN apt-get -y install fzf
 RUN apt-get -y install feh
 RUN apt-get -y install build-essential
 RUN apt-get -y install python3-tk
+RUN apt-get -y install sshfs
 
 #create the user account
 ARG USER_NAME="hannahnelson"
@@ -32,9 +33,7 @@ RUN chown hannahnelson /home/${USER_NAME}
 RUN mkdir /home/${USER_NAME}/workspace
 RUN chown hannahnelson /home/${USER_NAME}/workspace
 RUN touch /home/${USER_NAME}/.hushlogin
-RUN echo "PS1='\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '" >> /etc/bash.bashrc
-RUN echo "LS_COLORS=$LS_COLORS:':di=0;93:*.png=1;31;107:' ; export LS_COLORS" >> /etc/bash.bashrc
-RUN echo "alias ls=\"ls --color\"" >> /etc/bash.bashrc
+COPY ./bash.bashrc /etc/bash.bashrc
 RUN chsh -s /usr/bin/bash ${USER_NAME}
 
 #configure nvim
