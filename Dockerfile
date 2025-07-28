@@ -17,6 +17,11 @@ RUN apt-get -y install build-essential
 RUN apt-get -y install python3-tk
 RUN apt-get -y install sshfs
 
+RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
+RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" | sudo tee /etc/apt/sources.list.d/httpie.list > /dev/null
+RUN sudo apt-get update
+RUN sudo apt install -y httpie
+
 #create the user account
 ARG USER_NAME="hannahnelson"
 ARG USER_PASSWORD="palp"
