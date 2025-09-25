@@ -20,7 +20,10 @@ RUN apt-get -y install sshfs
 RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
 RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" | sudo tee /etc/apt/sources.list.d/httpie.list > /dev/null
 RUN sudo apt-get update
-RUN sudo apt install -y httpie
+RUN sudo apt-get -y install httpie
+
+RUN sudo apt-get -y install pipx
+RUN sudo pipx ensurepath
 
 #create the user account
 ARG USER_NAME="hannahnelson"
@@ -38,13 +41,24 @@ RUN chown hannahnelson /home/${USER_NAME}
 RUN mkdir /home/${USER_NAME}/workspace
 RUN chown hannahnelson /home/${USER_NAME}/workspace
 RUN touch /home/${USER_NAME}/.hushlogin
-COPY ./bash.bashrc /etc/bash.bashrc
+RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config
+
+# get pipx stuff working
+RUN sudo -u hannahnelson pipx ensurepath
+RUN sudo -u hannahnelson pipx install elia-chat
+RUN sudo -u hannahnelson pipx install aider-chat
+
+#configure elia
+RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config/elia
+RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.local/share/elia
+
+#configure bash
 RUN chsh -s /usr/bin/bash ${USER_NAME}
+COPY ./bash.bashrc /etc/bash.bashrc
 
 #configure nvim
-RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config
 RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config/nvim
-RUN sudo -u hannahnelson git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim
+RUN sudo -u hannahnelson git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim # bump
 RUN sudo -u hannahnelson nvim +q #this is needed to make the plugins work
 RUN sudo -u hannahnelson nvim +PlugInstall +qa #install the nvim plugins
 

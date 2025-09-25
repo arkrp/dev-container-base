@@ -1,0 +1,5 @@
+default_model = "openai/TheBloke/Rose-20B-GPTQ"
+[[models]]
+name = "openai/TheBloke/Rose-20B-GPTQ"
+api_base = "http://10.0.0.247:8000/v1"
+api_key = "api-key-if-required"
