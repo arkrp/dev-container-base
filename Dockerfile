@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:24.04
 WORKDIR /app
 
 #install the basics
@@ -17,11 +17,13 @@ RUN apt-get -y install build-essential
 RUN apt-get -y install python3-tk
 RUN apt-get -y install sshfs
 
+# install httpie
 RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
 RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" | sudo tee /etc/apt/sources.list.d/httpie.list > /dev/null
 RUN sudo apt-get update
 RUN sudo apt-get -y install httpie
 
+# install pipx
 RUN sudo apt-get -y install pipx
 RUN sudo pipx ensurepath
 
@@ -45,12 +47,7 @@ RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config
 
 # get pipx stuff working
 RUN sudo -u hannahnelson pipx ensurepath
-RUN sudo -u hannahnelson pipx install elia-chat
 RUN sudo -u hannahnelson pipx install aider-chat
-
-#configure elia
-RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config/elia
-RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.local/share/elia
 
 #configure bash
 RUN chsh -s /usr/bin/bash ${USER_NAME}
@@ -61,6 +58,9 @@ RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config/nvim
 RUN sudo -u hannahnelson git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim # bump
 RUN sudo -u hannahnelson nvim +q #this is needed to make the plugins work
 RUN sudo -u hannahnelson nvim +PlugInstall +qa #install the nvim plugins
+
+#configure tmux
+COPY tmux.conf /home/hannahnelson/.tmux.conf
 
 #configure ssh and X11 forwarding!
 RUN mkdir /var/run/sshd
