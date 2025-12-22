@@ -42,39 +42,39 @@ RUN echo "$USER_NAME:$USER_PASSWORD" | chpasswd
 
 # set up the user's home
 RUN mkdir /home/${USER_NAME}
-RUN chown hannahnelson /home/${USER_NAME}
+RUN chown ${USER_NAME} /home/${USER_NAME}
 RUN mkdir /home/${USER_NAME}/workspace
-RUN chown hannahnelson /home/${USER_NAME}/workspace
+RUN chown ${USER_NAME} /home/${USER_NAME}/workspace
 RUN touch /home/${USER_NAME}/.hushlogin
-RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config
+RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config
 
 # get pipx stuff working
-RUN sudo -u hannahnelson pipx ensurepath
-RUN sudo -u hannahnelson pipx install aider-chat
+RUN sudo -u ${USER_NAME} pipx ensurepath
+RUN sudo -u ${USER_NAME} pipx install aider-chat
 
 # configure bash
 RUN chsh -s /usr/bin/bash ${USER_NAME}
 COPY ./bash.bashrc /etc/bash.bashrc
 
 # configure nvim
-RUN sudo -u hannahnelson mkdir /home/${USER_NAME}/.config/nvim
-RUN sudo -u hannahnelson git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim # bump
-RUN sudo -u hannahnelson nvim +q #this is needed to make the plugins work
-RUN sudo -u hannahnelson nvim +PlugInstall +qa #install the nvim plugins
+RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config/nvim
+RUN sudo -u ${USER_NAME} git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim # bump
+RUN sudo -u ${USER_NAME} nvim +q #this is needed to make the plugins work
+RUN sudo -u ${USER_NAME} nvim +PlugInstall +qa #install the nvim plugins
 
 # configure tmux
-COPY tmux.conf /home/hannahnelson/.tmux.conf
+COPY tmux.conf /home/${USER_NAME}/.tmux.conf
 
 # configure ssh and X11 forwarding!
 RUN mkdir /var/run/sshd
 RUN echo "ForwardX11 yes" >> /etc/ssh/ssh_config
 RUN mkdir /home/${USER_NAME}/.ssh
-RUN chown hannahnelson /home/${USER_NAME}/.ssh
+RUN chown ${USER_NAME} /home/${USER_NAME}/.ssh
 
 # configure git for you!
-RUN sudo -u hannahnelson git config --global user.email "${USER_EMAIL}"
-RUN sudo -u hannahnelson git config --global user.name "${USER_FULL_NAME}"
-RUN sudo -u hannahnelson git config --global core.editor "nvim"
+RUN sudo -u ${USER_NAME} git config --global user.email "${USER_EMAIL}"
+RUN sudo -u ${USER_NAME} git config --global user.name "${USER_FULL_NAME}"
+RUN sudo -u ${USER_NAME} git config --global core.editor "nvim"
 
 # open the ports!
 # 22 for ssh
@@ -85,5 +85,3 @@ EXPOSE 3939
 # summon the starting program!
 COPY ./activate.sh .
 CMD ["bash","./activate.sh"]
-
-
