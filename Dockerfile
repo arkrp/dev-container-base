@@ -16,6 +16,8 @@ RUN apt-get -y install feh
 RUN apt-get -y install build-essential
 RUN apt-get -y install python3-tk
 RUN apt-get -y install sshfs
+RUN apt-get -y install zathura
+RUN apt-get -y install texlive
 
 # dependency for build123d
 RUN apt-get -y install libgl-dev
@@ -55,6 +57,8 @@ RUN sudo -u ${USER_NAME} pipx install aider-chat
 # configure bash
 RUN chsh -s /usr/bin/bash ${USER_NAME}
 COPY ./bash.bashrc /etc/bash.bashrc
+
+COPY README.txt /home/${USER_NAME}/README.txt
 
 # configure nvim
 RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config/nvim
