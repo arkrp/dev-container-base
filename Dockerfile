@@ -17,7 +17,7 @@ RUN apt-get -y install build-essential
 RUN apt-get -y install python3-tk
 RUN apt-get -y install sshfs
 RUN apt-get -y install zathura
-RUN apt-get -y install texlive
+RUN apt-get -y install texlive-full
 
 # dependency for build123d
 RUN apt-get -y install libgl-dev
@@ -63,6 +63,7 @@ COPY README.txt /home/${USER_NAME}/README.txt
 # configure nvim
 RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config/nvim
 RUN sudo -u ${USER_NAME} git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim # bump
+RUN cd /home/${USER_NAME}/.config/nvim/ && sudo -u ${USER_NAME} git remote set-url origin git@github.com:arkrp/vimrc.git
 RUN sudo -u ${USER_NAME} nvim +q #this is needed to make the plugins work
 RUN sudo -u ${USER_NAME} nvim +PlugInstall +qa #install the nvim plugins
 
