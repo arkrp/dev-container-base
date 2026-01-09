@@ -79,3 +79,4 @@ fi
 export OPENAI_API_BASE="http://10.0.0.246:11434/v1"
 export OPENAI_API_KEY="none"
 alias maider="aider --model openai/mistral-small3.2:24b"
+alias vimtarg="tmux -L nvim_target"

@@ -40,3 +40,7 @@ Other:
     curl - downloads in command line
     fzf - file finding utility
     build-essential (may tools)
+
+Aliases:
+    vimtarg - launches the default tmux target for nvim
+    maider - launches aider with working configs
