@@ -58,7 +58,7 @@ RUN sudo -u ${USER_NAME} pipx install aider-chat
 #section-end
 #section-start configure bash
 RUN chsh -s /usr/bin/bash ${USER_NAME}
-COPY ./bash.bashrc /etc/bash.bashrc
+COPY ./files/bash.bashrc /etc/bash.bashrc
 #section-end
 #section-start copy readme to home!
 COPY README.txt /home/${USER_NAME}/README.txt
@@ -73,7 +73,7 @@ RUN sudo -u ${USER_NAME} nvim +q #this is needed to make the plugins work
 RUN sudo -u ${USER_NAME} nvim +PlugInstall +qa #install the nvim plugins
 #section-end
 #section-start configure tmux
-COPY tmux.conf /home/${USER_NAME}/.tmux.conf
+COPY ./files/tmux.conf /home/${USER_NAME}/.tmux.conf
 #section-end
 #section-start configure ssh for X11 forwarding!
 RUN mkdir /var/run/sshd
@@ -93,6 +93,6 @@ EXPOSE 22
 EXPOSE 3939
 #section-end
 #section-start summon the starting program!
-COPY ./activate.sh .
+COPY ./files/activate.sh .
 CMD ["bash","./activate.sh"]
 #section-end
