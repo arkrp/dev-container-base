@@ -44,3 +44,11 @@ Other:
 Aliases:
     vimtarg - launches the default tmux target for nvim
     maider - launches aider with working configs
+
+In addition to programs, the container pre-downloads several useful pip packages! If you are offline, then this package can download the following pacakges by appending the --no-index flag to pip like so: ```pip install --no-index torch```. Now you can spin up all the venvs you want while offline!
+
+The following pip packages are pre-downloaded
+    torch - machine learning
+    matplotlib - graphing
+    numpy - computation
+    build123d - cad modeling

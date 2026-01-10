@@ -34,6 +34,15 @@ RUN sudo apt-get -y install httpie
 RUN sudo apt-get -y install pipx
 RUN sudo pipx ensurepath
 #section-end
+#section-start pre-download pip packages
+RUN mkdir /app/hoard
+RUN mkdir /app/hoard/python
+RUN cd /app/hoard/python && echo "torch" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "matplotlib" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "numpy" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "build123d" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN rm /app/hoard/python/package_name.txt
+#section-end
 #section-start create user account!
 ARG USER_NAME="hannahnelson"
 ARG USER_PASSWORD="palp"
@@ -55,6 +64,10 @@ RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config
 #section-start set up pipx!
 RUN sudo -u ${USER_NAME} pipx ensurepath
 RUN sudo -u ${USER_NAME} pipx install aider-chat
+#section-end
+#section-start load pip configuration
+RUN mkdir /home/${USER_NAME}/.config/pip
+COPY ./files/pip.conf /home/${USER_NAME}/.config/pip/pip.conf
 #section-end
 #section-start configure bash
 RUN chsh -s /usr/bin/bash ${USER_NAME}
