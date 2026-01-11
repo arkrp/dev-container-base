@@ -52,3 +52,7 @@ The following pip packages are pre-downloaded
     matplotlib - graphing
     numpy - computation
     build123d - cad modeling
+    scipy - extra stuff for numpy
+    ipython - better interactive repl
+    pandas - spreadsheets! (data table manipulation)
+    

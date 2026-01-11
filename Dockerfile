@@ -41,6 +41,9 @@ RUN cd /app/hoard/python && echo "torch" > package_name.txt && python3 -m pip do
 RUN cd /app/hoard/python && echo "matplotlib" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN cd /app/hoard/python && echo "numpy" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN cd /app/hoard/python && echo "build123d" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "scipy" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "ipython" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "pandas" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN rm /app/hoard/python/package_name.txt
 #section-end
 #section-start create user account!
