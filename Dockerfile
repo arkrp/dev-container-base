@@ -1,38 +1,23 @@
-FROM ubuntu:24.04
+#section-start unminimized_ubuntu
+#section-start header
+FROM ubuntu:24.04 AS unminimized_ubuntu
 WORKDIR /app
-
-#section-start install good applications!
-RUN yes | unminimize
+#section-end
+#section-start unminimize os
 RUN apt-get update
-RUN apt-get -y install sudo
-RUN apt-get -y install ssh
-RUN apt-get -y install neovim
-RUN apt-get -y install git
-RUN apt-get -y install curl
-RUN apt-get -y install nano
-RUN apt-get -y install tmux
+RUN yes | unminimize
+#section-end
+#section-end
+#section-start python_package_predownload
+#section-start header
+FROM unminimized_ubuntu AS python_package_predownload
+WORKDIR /app
+#section-end
+#section-start install python
+RUN apt-get update
+RUN apt-get -y install python3
+RUN apt-get -y install python3-pip
 RUN apt-get -y install python3.12-venv
-RUN apt-get -y install fzf
-RUN apt-get -y install feh
-RUN apt-get -y install build-essential
-RUN apt-get -y install python3-tk
-RUN apt-get -y install sshfs
-RUN apt-get -y install zathura
-RUN apt-get -y install texlive-full
-#section-end
-#section-start install libgl-dev
-#this is a dependency for build123d
-RUN apt-get -y install libgl-dev
-#section-end
-#section-start install httpie
-RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
-RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" | sudo tee /etc/apt/sources.list.d/httpie.list > /dev/null
-RUN sudo apt-get update
-RUN sudo apt-get -y install httpie
-#section-end
-#section-start install aider
-RUN python3 -m venv aider_venv
-RUN /app/aider_venv/bin/python -m pip install -U --upgrade-strategy only-if-needed aider-chat
 #section-end
 #section-start pre-download pip packages
 RUN mkdir /app/hoard
@@ -46,6 +31,60 @@ RUN cd /app/hoard/python && echo "ipython" > package_name.txt && python3 -m pip 
 RUN cd /app/hoard/python && echo "pandas" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN rm /app/hoard/python/package_name.txt
 #section-end
+#section-end
+#section-start dev_container_base
+#section-start header
+FROM unminimized_ubuntu AS dev_container_base
+WORKDIR /app
+#section-end
+#section-start install applications!
+#section-start install apt programs!
+RUN apt-get update
+#section-start install essential system commands
+RUN apt-get -y install sudo
+RUN apt-get -y install ssh
+RUN apt-get -y install git
+RUN apt-get -y install curl
+RUN apt-get -y install build-essential
+#section-end
+#section-start install language compatibilities
+RUN apt-get -y install python3.12-venv
+RUN apt-get -y install python3-tk
+RUN apt-get -y install texlive-latex-base
+RUN apt-get -y install texlive-latex-recommended
+RUN apt-get -y install texlive-fonts-recommended
+#section-end
+#section-start install user apps
+RUN apt-get -y install neovim
+RUN apt-get -y install tmux
+RUN apt-get -y install sshfs
+RUN apt-get -y install fzf
+RUN apt-get -y install man
+#section-start install aider
+RUN python3 -m venv aider_venv
+RUN /app/aider_venv/bin/python -m pip install -U --upgrade-strategy only-if-needed aider-chat
+#section-end
+#section-start install httpie
+RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
+RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" | sudo tee /etc/apt/sources.list.d/httpie.list > /dev/null
+RUN sudo apt-get update
+RUN sudo apt-get -y install httpie
+#section-end
+#section-end
+#section-start install file viewers
+RUN apt-get -y install feh
+RUN apt-get -y install zathura
+#section-end
+#section-start install supporting libraries
+#section-start install libgl-dev
+#this is a dependency for build123d
+RUN apt-get -y install libgl-dev
+#section-end
+#section-end
+#section-end
+#section-end
+COPY --from=python_package_predownload /app/hoard /app/hoard
+#section-start set up user home
 #section-start create user account!
 ARG USER_NAME="hannahnelson"
 ARG USER_PASSWORD="palp"
@@ -64,6 +103,11 @@ RUN chown ${USER_NAME} /home/${USER_NAME}/workspace
 RUN touch /home/${USER_NAME}/.hushlogin
 RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config
 #section-end
+#section-start copy readme to home!
+COPY README.txt /home/${USER_NAME}/README.txt
+#section-end
+#section-end
+#section-start configure applications!
 #section-start load pip configuration
 RUN mkdir /home/${USER_NAME}/.config/pip
 COPY ./files/pip.conf /home/${USER_NAME}/.config/pip/pip.conf
@@ -71,9 +115,6 @@ COPY ./files/pip.conf /home/${USER_NAME}/.config/pip/pip.conf
 #section-start configure bash
 RUN chsh -s /usr/bin/bash ${USER_NAME}
 COPY ./files/bash.bashrc /etc/bash.bashrc
-#section-end
-#section-start copy readme to home!
-COPY README.txt /home/${USER_NAME}/README.txt
 #section-end
 #section-start install nvim configuration
 ARG NVIM_GIT_COMMIT="90f2c55"
@@ -98,6 +139,7 @@ RUN sudo -u ${USER_NAME} git config --global user.email "${USER_EMAIL}"
 RUN sudo -u ${USER_NAME} git config --global user.name "${USER_FULL_NAME}"
 RUN sudo -u ${USER_NAME} git config --global core.editor "nvim"
 #section-end
+#section-end
 #section-start expose the ports!
 # 22 for ssh
 EXPOSE 22
@@ -107,4 +149,5 @@ EXPOSE 3939
 #section-start summon the starting program!
 COPY ./files/activate.sh .
 CMD ["bash","./activate.sh"]
+#section-end
 #section-end
