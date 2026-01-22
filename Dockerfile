@@ -30,9 +30,9 @@ RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://pack
 RUN sudo apt-get update
 RUN sudo apt-get -y install httpie
 #section-end
-#section-start install pipx
-RUN sudo apt-get -y install pipx
-RUN sudo pipx ensurepath
+#section-start install aider
+RUN python3 -m venv aider_venv
+RUN /app/aider_venv/bin/python -m pip install -U --upgrade-strategy only-if-needed aider-chat
 #section-end
 #section-start pre-download pip packages
 RUN mkdir /app/hoard
@@ -63,10 +63,6 @@ RUN mkdir /home/${USER_NAME}/workspace
 RUN chown ${USER_NAME} /home/${USER_NAME}/workspace
 RUN touch /home/${USER_NAME}/.hushlogin
 RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config
-#section-end
-#section-start set up pipx!
-RUN sudo -u ${USER_NAME} pipx ensurepath
-RUN sudo -u ${USER_NAME} pipx install aider-chat
 #section-end
 #section-start load pip configuration
 RUN mkdir /home/${USER_NAME}/.config/pip
