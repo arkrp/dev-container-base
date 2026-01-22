@@ -73,11 +73,12 @@ PS1='${debian_chroot:+($debian_chroot)}\[[01;32m\]\u\[[00m\]:\[[01;34m\]\w\[
 LS_COLORS=:':di=0;93:*.png=1;31;107:' ; export LS_COLORS
 alias ls="ls --color"
 if [ -z "$TMUX" ]; then
-   exec tmux
+   exec tmux new-session -s main
 #  tmux attach || tmux new-session
 fi
 export OPENAI_API_BASE="http://10.0.0.246:11434/v1"
 export OPENAI_API_KEY="none"
 alias aider="/app/aider_venv/bin/aider"
 alias maider="aider --model openai/mistral-small3.2:24b"
+alias ocp="/app/ocp_server.sh"
 alias vimtarg="tmux -L nvim_target"

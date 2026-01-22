@@ -29,6 +29,8 @@ RUN cd /app/hoard/python && echo "build123d" > package_name.txt && python3 -m pi
 RUN cd /app/hoard/python && echo "scipy" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN cd /app/hoard/python && echo "ipython" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN cd /app/hoard/python && echo "pandas" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "cadquery-ocp" > package_name.txt && python3 -m pip download -r package_name.txt
+RUN cd /app/hoard/python && echo "ocp_vscode" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN rm /app/hoard/python/package_name.txt
 #section-end
 #section-end
@@ -38,8 +40,9 @@ FROM unminimized_ubuntu AS dev_container_base
 WORKDIR /app
 #section-end
 #section-start install applications!
-#section-start install apt programs!
+#section-start update package repository!
 RUN apt-get update
+#section-end
 #section-start install essential system commands
 RUN apt-get -y install sudo
 RUN apt-get -y install ssh
@@ -48,11 +51,15 @@ RUN apt-get -y install curl
 RUN apt-get -y install build-essential
 #section-end
 #section-start install language compatibilities
+#section-start python
 RUN apt-get -y install python3.12-venv
 RUN apt-get -y install python3-tk
+#section-end
+#section-start latex
 RUN apt-get -y install texlive-latex-base
 RUN apt-get -y install texlive-latex-recommended
 RUN apt-get -y install texlive-fonts-recommended
+#section-end
 #section-end
 #section-start install user apps
 RUN apt-get -y install neovim
@@ -74,6 +81,13 @@ RUN sudo apt-get -y install httpie
 #section-start install file viewers
 RUN apt-get -y install feh
 RUN apt-get -y install zathura
+#section-start install ocp_vscode server
+RUN python3 -m venv ocp_vscode_venv
+RUN /app/ocp_vscode_venv/bin/python -m pip install cadquery-ocp
+RUN /app/ocp_vscode_venv/bin/python -m pip install ocp_vscode
+COPY files/ocp_server.sh ocp_server.sh
+RUN chmod 777 ocp_server.sh
+#section-end
 #section-end
 #section-start install supporting libraries
 #section-start install libgl-dev
@@ -82,8 +96,9 @@ RUN apt-get -y install libgl-dev
 #section-end
 #section-end
 #section-end
-#section-end
+#section-start download offline resources!
 COPY --from=python_package_predownload /app/hoard /app/hoard
+#section-end
 #section-start set up user home
 #section-start create user account!
 ARG USER_NAME="hannahnelson"

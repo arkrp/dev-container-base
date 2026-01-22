@@ -21,7 +21,6 @@ The following programs are installed in the container:
 
 Essential user programs:
     nvim - Primary text editor.
-    nano - backup text editor
     git -  Version control system.
     ssh - Allows remote connection to and from the container.
     tmux - terminal multiplexer
@@ -40,8 +39,10 @@ Other:
     curl - downloads in command line
     fzf - file finding utility
     build-essential (may tools)
+    man - documentation for linux utilities
 
 Aliases:
+    ocp - your friendly browser based ocp viewer!
     vimtarg - launches the default tmux target for nvim
     maider - launches aider with working configs
 
@@ -55,4 +56,6 @@ The following pip packages are pre-downloaded
     scipy - extra stuff for numpy
     ipython - better interactive repl
     pandas - spreadsheets! (data table manipulation)
+    ocp_vscode - used in tandem with ocp command to display 3d models
+    cadquery-ocp - unclear dependency of ocp_vscode
     
