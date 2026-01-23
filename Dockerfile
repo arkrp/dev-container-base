@@ -77,6 +77,7 @@ RUN apt-get -y install tmux
 RUN apt-get -y install sshfs
 RUN apt-get -y install fzf
 RUN apt-get -y install man
+RUN apt-get -y install ncdu
 #section-start install aider
 RUN python3 -m venv aider_venv
 RUN /app/aider_venv/bin/python -m pip install -U --upgrade-strategy only-if-needed aider-chat

@@ -33,6 +33,7 @@ Specific task:
     pdftex - allows compilation of tex files
     quarto - renders quarto markdown documents
     feh - image viewing utility
+    ncdu - figure out what files are taking up all of your space
 
 Other:
     http - hypertext requrests from the command line
