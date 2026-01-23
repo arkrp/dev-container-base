@@ -50,7 +50,7 @@ RUN apt-get -y install git
 RUN apt-get -y install curl
 RUN apt-get -y install build-essential
 #section-end
-#section-start install language compatibilities
+#section-start install languages
 #section-start python
 RUN apt-get -y install python3.12-venv
 RUN apt-get -y install python3-tk
@@ -59,6 +59,16 @@ RUN apt-get -y install python3-tk
 RUN apt-get -y install texlive-latex-base
 RUN apt-get -y install texlive-latex-recommended
 RUN apt-get -y install texlive-fonts-recommended
+#section-end
+#section-start quarto
+# This is a pain to install tbh
+RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.27/quarto-1.8.27-linux-amd64.deb
+RUN apt-get -y install ./quarto-1.8.27-linux-amd64.deb
+RUN apt-get -y install r-base-core
+RUN apt-get -y install texlive-luatex
+RUN apt-get -y install texlive-latex-extra
+RUN apt-get -y install r-cran-knitr
+RUN apt-get -y install r-cran-rmarkdown
 #section-end
 #section-end
 #section-start install user apps
