@@ -31,6 +31,7 @@ Specific task:
     python 3.12 - programming language
     zathura - pdf viewer
     pdftex - allows compilation of tex files
+    quarto - renders quarto markdown documents
     feh - image viewing utility
 
 Other:
