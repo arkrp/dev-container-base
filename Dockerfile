@@ -67,8 +67,8 @@ RUN apt-get -y install ./quarto-1.8.27-linux-amd64.deb
 RUN apt-get -y install r-base-core
 RUN apt-get -y install texlive-luatex
 RUN apt-get -y install texlive-latex-extra
-RUN apt-get -y install r-cran-knitr
-RUN apt-get -y install r-cran-rmarkdown
+RUN Rscript -e 'install.packages("knitr")'
+RUN Rscript -e 'install.packages("rmarkdown")'
 #section-end
 #section-end
 #section-start install user apps
