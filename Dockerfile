@@ -1,3 +1,4 @@
+#section-start make docker images which will be used for construction
 #section-start unminimized_ubuntu
 #section-start header
 FROM ubuntu:24.04 AS unminimized_ubuntu
@@ -32,6 +33,30 @@ RUN cd /app/hoard/python && echo "pandas" > package_name.txt && python3 -m pip d
 RUN cd /app/hoard/python && echo "cadquery-ocp" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN cd /app/hoard/python && echo "ocp_vscode" > package_name.txt && python3 -m pip download -r package_name.txt
 RUN rm /app/hoard/python/package_name.txt
+#section-end
+#section-end
+#section-start pip_apps_preloaded
+#section-start header
+FROM ubuntu:24.04 AS pip_apps_preloaded
+WORKDIR /app
+#section-end
+#section-start install python
+RUN apt-get update
+RUN apt-get -y install python3
+RUN apt-get -y install python3-pip
+RUN apt-get -y install python3.12-venv
+#section-end
+#section-start install aider
+RUN python3 -m venv aider_venv
+RUN /app/aider_venv/bin/python -m pip install -U --upgrade-strategy only-if-needed aider-chat
+#section-end
+#section-start install ocp_vscode server
+RUN python3 -m venv ocp_vscode_venv
+RUN /app/ocp_vscode_venv/bin/python -m pip install cadquery-ocp
+RUN /app/ocp_vscode_venv/bin/python -m pip install ocp_vscode
+COPY files/ocp_server.sh ocp_vscode_venv/ocp_server.sh
+RUN chmod 777 ocp_vscode_venv/ocp_server.sh
+#section-end
 #section-end
 #section-end
 #section-start dev_container_base
@@ -79,8 +104,7 @@ RUN apt-get -y install fzf
 RUN apt-get -y install man
 RUN apt-get -y install ncdu
 #section-start install aider
-RUN python3 -m venv aider_venv
-RUN /app/aider_venv/bin/python -m pip install -U --upgrade-strategy only-if-needed aider-chat
+COPY --from=pip_apps_preloaded /app/aider_venv /app/aider_venv
 #section-end
 #section-start install httpie
 RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
@@ -93,11 +117,7 @@ RUN sudo apt-get -y install httpie
 RUN apt-get -y install feh
 RUN apt-get -y install zathura
 #section-start install ocp_vscode server
-RUN python3 -m venv ocp_vscode_venv
-RUN /app/ocp_vscode_venv/bin/python -m pip install cadquery-ocp
-RUN /app/ocp_vscode_venv/bin/python -m pip install ocp_vscode
-COPY files/ocp_server.sh ocp_server.sh
-RUN chmod 777 ocp_server.sh
+COPY --from=pip_apps_preloaded /app/ocp_vscode_venv /app/ocp_vscode_venv
 #section-end
 #section-end
 #section-start install supporting libraries
