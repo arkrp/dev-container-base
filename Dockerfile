@@ -58,6 +58,16 @@ COPY files/ocp_server.sh ocp_vscode_venv/ocp_server.sh
 RUN chmod 777 ocp_vscode_venv/ocp_server.sh
 #section-end
 #section-end
+#section-start cran_packages_preloaded
+#section-start header
+FROM ubuntu:24.04 AS cran_packages_preloaded
+WORKDIR /app
+#section-end
+RUN apt-get update
+RUN apt-get -y install r-base-core
+RUN Rscript -e 'install.packages("knitr")'
+RUN Rscript -e 'install.packages("rmarkdown")'
+#section-end
 #section-end
 #section-start dev_container_base
 #section-start header
@@ -85,15 +95,15 @@ RUN apt-get -y install texlive-latex-base
 RUN apt-get -y install texlive-latex-recommended
 RUN apt-get -y install texlive-fonts-recommended
 #section-end
-#section-start quarto
+#section-start quarto/R
 # This is a pain to install tbh
+# but alas, as a statistician I must use it to please my peers.
 RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.27/quarto-1.8.27-linux-amd64.deb
 RUN apt-get -y install ./quarto-1.8.27-linux-amd64.deb
 RUN apt-get -y install r-base-core
 RUN apt-get -y install texlive-luatex
 RUN apt-get -y install texlive-latex-extra
-RUN Rscript -e 'install.packages("knitr")'
-RUN Rscript -e 'install.packages("rmarkdown")'
+COPY --from=cran_packages_preloaded /usr/local/lib/R/site-library /usr/local/lib/R/site-library
 #section-end
 #section-end
 #section-start install user apps
@@ -165,7 +175,7 @@ COPY ./files/bash.bashrc /etc/bash.bashrc
 #section-start install nvim configuration
 ARG NVIM_GIT_COMMIT="90f2c55"
 RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config/nvim
-RUN sudo -u ${USER_NAME} git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim # bump
+RUN sudo -u ${USER_NAME} git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim
 RUN cd /home/${USER_NAME}/.config/nvim/ && sudo -u ${USER_NAME} git remote set-url origin git@github.com:arkrp/vimrc.git
 RUN cd /home/${USER_NAME}/.config/nvim/ && sudo -u ${USER_NAME} git checkout ${NVIM_GIT_COMMIT}
 RUN sudo -u ${USER_NAME} nvim +q #this is needed to make the plugins work
