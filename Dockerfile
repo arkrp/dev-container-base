@@ -40,11 +40,16 @@ RUN rm /app/hoard/python/package_name.txt
 FROM ubuntu:24.04 AS pip_apps_preloaded
 WORKDIR /app
 #section-end
-#section-start install python
+#section-start install prereqs
 RUN apt-get update
+#section-start install python
 RUN apt-get -y install python3
 RUN apt-get -y install python3-pip
 RUN apt-get -y install python3.12-venv
+#section-end
+#section-start install git
+RUN apt-get -y install git
+#section-end
 #section-end
 #section-start install aider
 RUN python3 -m venv aider_venv
@@ -94,6 +99,9 @@ RUN apt-get -y install python3-tk
 RUN apt-get -y install texlive-latex-base
 RUN apt-get -y install texlive-latex-recommended
 RUN apt-get -y install texlive-fonts-recommended
+RUN apt-get -y install latexmk
+RUN apt-get -y install texlive-bibtex-extra
+RUN apt-get -y install biber
 #section-end
 #section-start quarto/R
 # This is a pain to install tbh
@@ -105,6 +113,7 @@ RUN apt-get -y install texlive-luatex
 RUN apt-get -y install texlive-latex-extra
 COPY --from=cran_packages_preloaded /usr/local/lib/R/site-library /usr/local/lib/R/site-library
 #section-end
+RUN apt-get -y install npm
 #section-end
 #section-start install user apps
 RUN apt-get -y install neovim

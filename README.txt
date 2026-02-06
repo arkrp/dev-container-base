@@ -29,6 +29,7 @@ Essential user programs:
 
 Specific task:
     python 3.12 - programming language
+    npm - node package manager
     zathura - pdf viewer
     pdftex - allows compilation of tex files
     quarto - renders quarto markdown documents
