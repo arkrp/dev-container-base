@@ -83,3 +83,4 @@ alias maider="aider --model openai/mistral-small3.2:24b"
 alias ocp="/app/ocp_vscode_venv/ocp_server.sh"
 alias vimtarg="tmux -L nvim_target"
 alias cookiecutter="/app/cookiecutter_venv/bin/cookiecutter"
+alias cookie='cookiecutter "$(find /app/cookiecutter_templates/ -maxdepth 1 -mindepth 1 | fzf)"'
