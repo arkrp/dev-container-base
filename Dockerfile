@@ -78,10 +78,19 @@ RUN apt-get update
 RUN apt-get -y install git
 #section-end
 #section-end
+#section-start download templates
 RUN mkdir cookiecutter_templates
+#section-start download the build123d part template
 ARG COOKIECUTTER_BUILD123D_TEMPLATE_COMMIT="cb1d779"
 RUN git clone https://github.com/arkrp/template_build123d.git /app/cookiecutter_templates/build123d_part
 RUN cd /app/cookiecutter_templates/build123d_part && git checkout ${COOKIECUTTER_BUILD123D_TEMPLATE_COMMIT}
+#section-end
+#section-start download the quarto document template
+ARG COOKIECUTTER_QUARTO_DOCUMENT_TEMPLATE_COMMIT="ac59a8ed94cf029a1b6caec983666c74f8f2a1ad"
+RUN git clone https://github.com/arkrp/template_quarto_document.git /app/cookiecutter_templates/quarto_document
+RUN cd /app/cookiecutter_templates/quarto_document && git checkout ${COOKIECUTTER_QUARTO_DOCUMENT_TEMPLATE_COMMIT}
+#section-end
+#section-end
 #section-end
 #section-start cran_packages_preloaded
 #section-start header
