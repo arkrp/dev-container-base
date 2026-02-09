@@ -43,6 +43,7 @@ Other:
     fzf - file finding utility
     build-essential (may tools)
     man - documentation for linux utilities
+    cookiecutter - allows user to create projects from templates
 
 Aliases:
     ocp - your friendly browser based ocp viewer!

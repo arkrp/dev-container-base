@@ -62,6 +62,24 @@ RUN /app/ocp_vscode_venv/bin/python -m pip install ocp_vscode
 COPY files/ocp_server.sh ocp_vscode_venv/ocp_server.sh
 RUN chmod 777 ocp_vscode_venv/ocp_server.sh
 #section-end
+#section-start install cookiecutter
+RUN python3 -m venv cookiecutter_venv
+RUN /app/cookiecutter_venv/bin/python -m pip install cookiecutter
+#section-end
+#section-end
+#section-start cookiecutter_template_predownload
+#section-start header
+FROM ubuntu:24.04 AS cookiecutter_template_predownload
+WORKDIR /app
+#section-end
+#section-start install prereqs
+RUN apt-get update
+#section-start install git
+RUN apt-get -y install git
+#section-end
+#section-end
+RUN mkdir cookiecutter_templates
+RUN git clone https://github.com/arkrp/template_build123d.git /app/cookiecutter_templates/build123d_part
 #section-end
 #section-start cran_packages_preloaded
 #section-start header
@@ -125,6 +143,9 @@ RUN apt-get -y install ncdu
 #section-start install aider
 COPY --from=pip_apps_preloaded /app/aider_venv /app/aider_venv
 #section-end
+#section-start install cookiecutter
+COPY --from=pip_apps_preloaded /app/cookiecutter_venv /app/cookiecutter_venv
+#section-end
 #section-start install httpie
 RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
 RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" | sudo tee /etc/apt/sources.list.d/httpie.list > /dev/null
@@ -148,6 +169,7 @@ RUN apt-get -y install libgl-dev
 #section-end
 #section-start download offline resources!
 COPY --from=python_package_predownload /app/hoard /app/hoard
+COPY --from=cookiecutter_template_predownload /app/cookiecutter_templates /app/cookiecutter_templates
 #section-end
 #section-start set up user home
 #section-start create user account!
