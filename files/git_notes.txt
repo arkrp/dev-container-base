@@ -1,0 +1,34 @@
+BASIC
+    git init
+        creates a repo
+    git add <filename>
+        adds a change to the staging area
+    git commit
+        turns all the staged changes into a commit
+    git status
+        views the status of a repo
+    git log
+        lists the previous commits
+    git diff <filename>
+        determines what the difference between the file and the current commit is.
+BRANCHES
+    git branch <branchname>
+        creates a new git branch
+    git checkout <commit id or branchname>
+        loads a particular git commit or branchname
+    git checkout HEAD
+        return to the front of the new branch
+    git merge <branchname>
+        merge a branch's changes into this one.
+PATCHES
+    git format-patch -1 HEAD
+        Turns the last commit into a patch which can be sent to update other repos.
+    git am -v <.patch file>
+        Applies a patch to a repo with commits
+    git apply -v <.patch file>
+        Applies a patch to a repository. Just changes, no commits.
+REMOTE
+    git remote -v
+        list what your current remote is.
+    git remote set-url origin <git repo>
+        sets a new origin
