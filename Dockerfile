@@ -90,6 +90,11 @@ ARG COOKIECUTTER_QUARTO_DOCUMENT_TEMPLATE_COMMIT="ac59a8ed94cf029a1b6caec983666c
 RUN git clone https://github.com/arkrp/template_quarto_document.git /app/cookiecutter_templates/quarto_document
 RUN cd /app/cookiecutter_templates/quarto_document && git checkout ${COOKIECUTTER_QUARTO_DOCUMENT_TEMPLATE_COMMIT}
 #section-end
+#section-start download the cookiecutter template
+ARG COOKIECUTTER_COOKIECUTTER_TEMPLATE_COMMIT="c3a8b440f15b148b4f4aa67a279830a563596c62"
+RUN git clone https://github.com/arkrp/template_cookiecutter.git /app/cookiecutter_templates/cookiecutter
+RUN cd /app/cookiecutter_templates/cookiecutter && git checkout ${COOKIECUTTER_COOKIECUTTER_TEMPLATE_COMMIT}
+#section-end
 #section-end
 #section-end
 #section-start cran_packages_preloaded
