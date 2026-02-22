@@ -66,6 +66,10 @@ RUN chmod 777 ocp_vscode_venv/ocp_server.sh
 RUN python3 -m venv cookiecutter_venv
 RUN /app/cookiecutter_venv/bin/python -m pip install cookiecutter
 #section-end
+#section-start install llm
+RUN python3 -m venv llm_venv
+RUN /app/llm_venv/bin/python -m pip install llm
+#section-end
 #section-end
 #section-start cookiecutter_template_predownload
 #section-start header
@@ -161,6 +165,9 @@ COPY --from=pip_apps_preloaded /app/aider_venv /app/aider_venv
 #section-end
 #section-start install cookiecutter
 COPY --from=pip_apps_preloaded /app/cookiecutter_venv /app/cookiecutter_venv
+#section-end
+#section-start install llm
+COPY --from=pip_apps_preloaded /app/llm_venv /app/llm_venv
 #section-end
 #section-start install httpie
 RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
