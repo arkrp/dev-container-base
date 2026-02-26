@@ -216,7 +216,7 @@ RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config
 #section-start copy readme to home!
 COPY README.txt /home/${USER_NAME}/README.txt
 #section-end
-#section-start copy readme to home!
+#section-start copy git notes to home!
 COPY /files/git_notes.txt /home/${USER_NAME}/git_notes.txt
 #section-end
 #section-end
