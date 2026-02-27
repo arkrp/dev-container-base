@@ -1,0 +1,1 @@
+This directory will be copied to the user's .ssh directory. This is where you place your authorized keys so you can connect! Along with that you probably want to place your ssh keys for github here, as .ssh is where github will look for them

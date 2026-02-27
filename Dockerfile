@@ -219,6 +219,9 @@ COPY README.txt /home/${USER_NAME}/README.txt
 #section-start copy git notes to home!
 COPY /files/git_notes.txt /home/${USER_NAME}/git_notes.txt
 #section-end
+#section-start save the primary username somewhere the root activate process can see it.
+RUN echo "$USER_NAME" > /app/primary_username.txt
+#section-end
 #section-end
 #section-start configure applications!
 #section-start load pip configuration
@@ -244,8 +247,9 @@ COPY ./files/tmux.conf /home/${USER_NAME}/.tmux.conf
 #section-start configure ssh for X11 forwarding!
 RUN mkdir /var/run/sshd
 RUN echo "ForwardX11 yes" >> /etc/ssh/ssh_config
-RUN mkdir /home/${USER_NAME}/.ssh
-RUN chown ${USER_NAME} /home/${USER_NAME}/.ssh
+#section-end
+#section-start create a folder for ssh keys to mount to
+RUN mkdir /app/ssh_keys
 #section-end
 #section-start configure git!
 RUN sudo -u ${USER_NAME} git config --global user.email "${USER_EMAIL}"
