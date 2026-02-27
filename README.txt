@@ -5,15 +5,15 @@ To get started, get the repo and build the docker image!
  >   git clone https://github.com/arkrp/dev-container-base.git
  >   bash ./dev-container-base/rebuild.sh
 
+Next you need to place your public ssh key in the config/ssh/ and name it authorized_keys. This lets ssh authenticate your connections so you don't have to enter a password but still are secure from intrusion!
+
 After that, whenever you need to spin up your development environment simply launch the container with launch.sh into any X11 enabled terminal.
 
- >   ./dev-contianer-base/launchdev.sh
+ >   ./dev-container-base/launchdev.sh
 
  When you are done, make sure to close the container!!
 
  >   ./dev-container-base/stopdev.sh
-
-The launchdev and stopdev scripts can be moved somewhere else if its convenient.
 
 Happy experimenting!
 

@@ -247,6 +247,7 @@ COPY ./files/tmux.conf /home/${USER_NAME}/.tmux.conf
 #section-start configure ssh for X11 forwarding!
 RUN mkdir /var/run/sshd
 RUN echo "ForwardX11 yes" >> /etc/ssh/ssh_config
+RUN echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
 #section-end
 #section-start create a folder for ssh keys to mount to
 RUN mkdir /app/ssh_keys
