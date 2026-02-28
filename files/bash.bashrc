@@ -76,8 +76,7 @@ if [ -z "$TMUX" ]; then
    exec tmux new-session -s main
 #  tmux attach || tmux new-session
 fi
-export OPENAI_API_BASE="http://10.0.0.246:11434/v1"
-export OPENAI_API_KEY="none"
+source /app/config/environment_variables/environment_variables.bash
 alias aider="/app/aider_venv/bin/aider"
 alias maider="aider --model openai/mistral-small3.2:24b"
 alias ocp="/app/ocp_vscode_venv/ocp_server.sh"

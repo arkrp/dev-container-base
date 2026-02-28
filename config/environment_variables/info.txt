@@ -1,0 +1,1 @@
+This directory stores the environment_varaibles.bash file. This allows you to configure things which are passed to programs via the environment varaibles. This lets you quickly configure things like what llm server your programs should connect to. A file is included with the repo, but you probably will want to configure this yourself to connect to your own services.
