@@ -78,7 +78,8 @@ if [ -z "$TMUX" ]; then
 fi
 source /app/config/environment_variables/environment_variables.bash
 alias aider="/app/aider_venv/bin/aider"
-alias maider="aider --model openai/mistral-small3.2:24b"
+alias maider="aider --model $AIDER_PREFERRED_MODEL"
+#alias maider="aider --model openai/phi4:14b"
 alias ocp="/app/ocp_vscode_venv/ocp_server.sh"
 alias vimtarg="tmux -L nvim_target"
 alias cookiecutter="/app/cookiecutter_venv/bin/cookiecutter"
