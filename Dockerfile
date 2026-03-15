@@ -233,7 +233,7 @@ RUN chsh -s /usr/bin/bash ${USER_NAME}
 COPY ./files/bash.bashrc /etc/bash.bashrc
 #section-end
 #section-start install nvim configuration
-ARG NVIM_GIT_COMMIT="90f2c55"
+ARG NVIM_GIT_COMMIT="49537aa161bb156732610645b2b0ea3e26ce2237"
 RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config/nvim
 RUN sudo -u ${USER_NAME} git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim
 RUN cd /home/${USER_NAME}/.config/nvim/ && sudo -u ${USER_NAME} git remote set-url origin git@github.com:arkrp/vimrc.git
