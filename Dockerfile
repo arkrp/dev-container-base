@@ -110,6 +110,7 @@ RUN apt-get update
 RUN apt-get -y install r-base-core
 RUN Rscript -e 'install.packages("knitr")'
 RUN Rscript -e 'install.packages("rmarkdown")'
+RUN Rscript -e 'install.packages("tidyverse")'
 #section-end
 #section-end
 #section-start dev_container_base
