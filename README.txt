@@ -44,7 +44,6 @@ Other:
     build-essential (may tools)
     man - documentation for linux utilities
     cookiecutter - allows user to create projects from templates
-    llm - program to access llms from command line
 
 Aliases:
     ocp - your friendly browser based ocp viewer!
