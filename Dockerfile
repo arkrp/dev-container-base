@@ -99,6 +99,16 @@ ARG COOKIECUTTER_COOKIECUTTER_TEMPLATE_COMMIT="c3a8b440f15b148b4f4aa67a279830a56
 RUN git clone https://github.com/arkrp/template_cookiecutter.git /app/cookiecutter_templates/cookiecutter
 RUN cd /app/cookiecutter_templates/cookiecutter && git checkout ${COOKIECUTTER_COOKIECUTTER_TEMPLATE_COMMIT}
 #section-end
+#section-start download the statistical report template
+ARG STATISTICAL_REPORT_COOKIECUTTER_TEMPLATE_COMMIT="f44fa4b31f94e83d7349555b14e011164e21a3d9"
+RUN git clone https://github.com/arkrp/template_statistical_report.git /app/cookiecutter_templates/statistical_report
+RUN cd /app/cookiecutter_templates/statistical_report && git checkout ${STATISTICAL_REPORT_COOKIECUTTER_TEMPLATE_COMMIT}
+#section-end
+#section-start download the cookiecutter template
+ARG PYTHON_PROJECT_COOKIECUTTER_TEMPLATE_COMMIT="fdaa261c4adf513bbee3dcc2b0facfa58c39894e"
+RUN git clone https://github.com/arkrp/template_python_project.git /app/cookiecutter_templates/python_project
+RUN cd /app/cookiecutter_templates/python_project && git checkout ${PYTHON_PROJECT_COOKIECUTTER_TEMPLATE_COMMIT}
+#section-end
 #section-end
 #section-end
 #section-start cran_packages_preloaded
