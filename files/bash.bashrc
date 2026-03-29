@@ -77,6 +77,7 @@ if [ -z "$TMUX" ]; then
 #  tmux attach || tmux new-session
 fi
 source /app/config/environment_variables/environment_variables.bash
+source /etc/git-completion.bash
 alias aider="/app/aider_venv/bin/aider"
 alias maider="aider --model $AIDER_PREFERRED_MODEL"
 #alias maider="aider --model openai/phi4:14b"
