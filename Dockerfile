@@ -51,10 +51,6 @@ RUN apt-get -y install python3.12-venv
 RUN apt-get -y install git
 #section-end
 #section-end
-#section-start install aider
-RUN python3 -m venv aider_venv
-RUN /app/aider_venv/bin/python -m pip install -U --upgrade-strategy only-if-needed aider-chat
-#section-end
 #section-start install ocp_vscode server
 RUN python3 -m venv ocp_vscode_venv
 RUN /app/ocp_vscode_venv/bin/python -m pip install cadquery-ocp
@@ -167,9 +163,6 @@ RUN apt-get -y install sshfs
 RUN apt-get -y install fzf
 RUN apt-get -y install man
 RUN apt-get -y install ncdu
-#section-start install aider
-COPY --from=pip_apps_preloaded /app/aider_venv /app/aider_venv
-#section-end
 #section-start install cookiecutter
 COPY --from=pip_apps_preloaded /app/cookiecutter_venv /app/cookiecutter_venv
 #section-end
