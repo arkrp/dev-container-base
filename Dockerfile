@@ -96,10 +96,15 @@ ARG STATISTICAL_REPORT_COOKIECUTTER_TEMPLATE_COMMIT="f44fa4b31f94e83d7349555b14e
 RUN git clone https://github.com/arkrp/template_statistical_report.git /app/cookiecutter_templates/statistical_report
 RUN cd /app/cookiecutter_templates/statistical_report && git checkout ${STATISTICAL_REPORT_COOKIECUTTER_TEMPLATE_COMMIT}
 #section-end
-#section-start download the cookiecutter template
+#section-start download the python project template
 ARG PYTHON_PROJECT_COOKIECUTTER_TEMPLATE_COMMIT="fdaa261c4adf513bbee3dcc2b0facfa58c39894e"
 RUN git clone https://github.com/arkrp/template_python_project.git /app/cookiecutter_templates/python_project
 RUN cd /app/cookiecutter_templates/python_project && git checkout ${PYTHON_PROJECT_COOKIECUTTER_TEMPLATE_COMMIT}
+#section-end
+#section-start download the python library template
+ARG PYTHON_LIBRARY_COOKIECUTTER_TEMPLATE_COMMIT="dc9c3b61b2c40c428897f2eacb9e5cb78abfc849"
+RUN git clone https://github.com/arkrp/template_python_library.git /app/cookiecutter_templates/python_library
+RUN cd /app/cookiecutter_templates/python_library && git checkout ${PYTHON_LIBRARY_COOKIECUTTER_TEMPLATE_COMMIT}
 #section-end
 #section-end
 #section-end
