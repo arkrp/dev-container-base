@@ -1,4 +1,4 @@
-This is a docker container for personal use code development!
+This is a podman container for personal use code development!
 
 To get started, get the repo and build the docker image!
 

@@ -1,3 +1,4 @@
 #!/usr/bin/bash
-sudo docker stop dev -t 2
-sudo docker container remove dev
+podman stop dev -t 5
+podman container stop dev
+podman container prune --force
