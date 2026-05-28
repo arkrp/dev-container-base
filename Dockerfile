@@ -106,6 +106,10 @@ ARG PYTHON_LIBRARY_COOKIECUTTER_TEMPLATE_COMMIT="dc9c3b61b2c40c428897f2eacb9e5cb
 RUN git clone https://github.com/arkrp/template_python_library.git /app/cookiecutter_templates/python_library
 RUN cd /app/cookiecutter_templates/python_library && git checkout ${PYTHON_LIBRARY_COOKIECUTTER_TEMPLATE_COMMIT}
 #section-end
+ARG LATEX_PRESENTATION_COOKIECUTTER_TEMPLATE_COMMIT="55d9166e22f9c82e19c797277abdce3a08aad218"
+RUN git clone https://github.com/arkrp/template_latex_presentation.git /app/cookiecutter_templates/latex_presentation
+RUN cd /app/cookiecutter_templates/latex_presentation && git checkout ${LATEX_PRESENTATION_COOKIECUTTER_TEMPLATE_COMMIT}
+
 #section-end
 #section-end
 #section-start cran_packages_preloaded
