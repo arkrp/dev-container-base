@@ -87,3 +87,4 @@ alias cookiecutter="/app/cookiecutter_venv/bin/cookiecutter"
 alias cookie='cookiecutter "$(find /app/cookiecutter_templates/ -maxdepth 1 -mindepth 1 | fzf)"'
 alias llm="/app/llm_venv/bin/llm"
 alias csv="column -t -s,"
+alias readmd="bash /app/readmd.sh"

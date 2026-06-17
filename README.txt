@@ -22,7 +22,7 @@ The following programs are installed in the container:
 Essential user programs:
     nvim - Primary text editor.
     git -  Version control system.
-    ssh - Allows remote connection to and from the container.
+    ssh - Allows remote connection to and from the container. Also allows port forwarding and secure copy.
     tmux - terminal multiplexer
     sshfs - allows mounting remote filesystems using ssh
 
@@ -35,6 +35,7 @@ Specific task:
     quarto - renders quarto markdown documents
     feh - image viewing utility
     ncdu - figure out what files are taking up all of your space
+    pandoc - converts between many document formats
 
 Other:
     http - hypertext requrests from the command line
@@ -51,6 +52,7 @@ Aliases:
     maider - launches aider with working configs
     cookie - grabs a template from my templates folder
     csv - just displays csv files nicely from the command line
+    readmd - lets you read markdown files
 
 In addition to programs, the container pre-downloads several useful pip packages! If you are offline, then this package can download the following pacakges by appending the --no-index flag to pip like so: ```pip install --no-index torch```. Now you can spin up all the venvs you want while offline!
 

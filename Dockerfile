@@ -171,6 +171,7 @@ RUN apt-get -y install tmux
 RUN apt-get -y install sshfs
 RUN apt-get -y install fzf
 RUN apt-get -y install man
+RUN apt-get -y install pandoc
 RUN apt-get -y install ncdu
 #section-start install cookiecutter
 COPY --from=pip_apps_preloaded /app/cookiecutter_venv /app/cookiecutter_venv
@@ -188,6 +189,7 @@ RUN apt-get -y install zathura
 #section-start install ocp_vscode server
 COPY --from=pip_apps_preloaded /app/ocp_vscode_venv /app/ocp_vscode_venv
 #section-end
+COPY files/readmd.sh .
 #section-end
 #section-start install supporting libraries
 #section-start install libgl-dev
