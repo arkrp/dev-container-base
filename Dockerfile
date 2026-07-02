@@ -139,6 +139,7 @@ RUN apt-get -y install ssh
 RUN apt-get -y install git
 RUN apt-get -y install curl
 RUN apt-get -y install build-essential
+RUN apt-get -y install podman
 #section-end
 #section-start install languages
 #section-start python

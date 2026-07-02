@@ -25,6 +25,7 @@ Essential user programs:
     ssh - Allows remote connection to and from the container. Also allows port forwarding and secure copy.
     tmux - terminal multiplexer
     sshfs - allows mounting remote filesystems using ssh
+    pomdan - isolate things in containers
 
 
 Specific task:
