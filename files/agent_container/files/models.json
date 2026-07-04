@@ -1,0 +1,19 @@
+{
+  "providers": {
+    "ollama": {
+      "baseUrl": "http://100.68.244.95:8080/v1",
+      "api": "openai-completions",
+      "apiKey": "palp",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false
+      },
+      "models": [
+        {
+          "id": "model.gguf",
+          "reasoning": true
+        }
+      ]
+    }
+  }
+}

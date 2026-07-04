@@ -1,0 +1,16 @@
+FROM node:trixie-slim
+WORKDIR /app
+RUN apt-get update
+#section-start install dependencies
+RUN apt-get -y install fd-find
+RUN apt-get -y install ripgrep
+#section-end
+#section-start install pi agent
+RUN npm install -g --ignore-scripts @earendil-works/pi-coding-agent
+RUN pi update
+#section-end
+COPY ./files/models.json /root/.pi/agent/models.json
+COPY ./files/startup.sh /app/startup.sh
+RUN chmod +x /app/startup.sh
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["exec /app/startup.sh"]
