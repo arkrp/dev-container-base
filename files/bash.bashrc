@@ -73,7 +73,7 @@ PS1='${debian_chroot:+($debian_chroot)}\[[01;32m\]\u\[[00m\]:\[[01;34m\]\w\[
 LS_COLORS=:':di=0;93:*.png=1;31;107:' ; export LS_COLORS
 alias ls="ls --color"
 if [ -z "$TMUX" ]; then
-   exec tmux new-session -s main
+   exec tmux new-session -A -s main
 #  tmux attach || tmux new-session
 fi
 source /app/config/environment_variables/environment_variables.bash
