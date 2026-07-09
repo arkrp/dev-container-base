@@ -15,10 +15,10 @@ FROM unminimized_ubuntu AS python_package_predownload
 WORKDIR /app
 #section-end
 #section-start install python
-RUN apt-get update
-RUN apt-get -y install python3
-RUN apt-get -y install python3-pip
-RUN apt-get -y install python3.12-venv
+RUN apt-get update && apt-get -y install \
+   python3 \
+   python3-pip \
+   python3.12-venv
 #section-end
 #section-start pre-download pip packages
 RUN mkdir /app/hoard
@@ -41,14 +41,15 @@ FROM ubuntu:24.04 AS pip_apps_preloaded
 WORKDIR /app
 #section-end
 #section-start install prereqs
-RUN apt-get update
 #section-start install python
-RUN apt-get -y install python3
-RUN apt-get -y install python3-pip
-RUN apt-get -y install python3.12-venv
+RUN apt-get update && apt-get -y install \
+   python3 \
+   python3-pip \
+   python3.12-venv
 #section-end
 #section-start install git
-RUN apt-get -y install git
+RUN apt-get update && \
+   apt-get -y install git
 #section-end
 #section-end
 #section-start install ocp_vscode server
@@ -69,9 +70,9 @@ FROM ubuntu:24.04 AS cookiecutter_template_predownload
 WORKDIR /app
 #section-end
 #section-start install prereqs
-RUN apt-get update
 #section-start install git
-RUN apt-get -y install git
+RUN apt-get update && \
+   apt-get -y install git
 #section-end
 #section-end
 #section-start download templates
@@ -117,8 +118,8 @@ RUN cd /app/cookiecutter_templates/latex_presentation && git checkout ${LATEX_PR
 FROM ubuntu:24.04 AS cran_packages_preloaded
 WORKDIR /app
 #section-end
-RUN apt-get update
-RUN apt-get -y install r-base-core
+RUN apt-get update && \
+   apt-get -y install r-base-core
 RUN Rscript -e 'install.packages("knitr")'
 RUN Rscript -e 'install.packages("rmarkdown")'
 RUN Rscript -e 'install.packages("tidyverse")'
@@ -130,63 +131,66 @@ FROM unminimized_ubuntu AS dev_container_base
 WORKDIR /app
 #section-end
 #section-start install applications!
-#section-start update package repository!
-RUN apt-get update
-#section-end
 #section-start install essential system commands
-RUN apt-get -y install sudo
-RUN apt-get -y install ssh
-RUN apt-get -y install git
-RUN apt-get -y install curl
-RUN apt-get -y install build-essential
-RUN apt-get -y install podman
+RUN apt-get update && apt-get -y install \
+   sudo \
+   ssh \
+   git \
+   curl \
+   build-essential \
+   podman
 #section-end
 #section-start install languages
 #section-start python
-RUN apt-get -y install python3.12-venv
-RUN apt-get -y install python3-tk
+RUN apt-get update && apt-get -y install \
+   python3.12-venv \
+   python3-tk
 #section-end
 #section-start latex
-RUN apt-get -y install texlive-latex-base
-RUN apt-get -y install texlive-latex-recommended
-RUN apt-get -y install texlive-fonts-recommended
-RUN apt-get -y install latexmk
-RUN apt-get -y install texlive-bibtex-extra
-RUN apt-get -y install biber
+RUN apt-get update && apt-get -y install \
+   texlive-latex-base \
+   texlive-latex-recommended \
+   texlive-fonts-recommended \
+   latexmk \
+   texlive-bibtex-extra \
+   biber
 #section-end
 #section-start quarto/R
 # This is a pain to install tbh
 # but alas, as a statistician I must use it to please my peers.
 RUN wget https://github.com/quarto-dev/quarto-cli/releases/download/v1.8.27/quarto-1.8.27-linux-amd64.deb
-RUN apt-get -y install ./quarto-1.8.27-linux-amd64.deb
-RUN apt-get -y install r-base-core
-RUN apt-get -y install texlive-luatex
-RUN apt-get -y install texlive-latex-extra
+RUN apt-get update && apt-get -y install \
+   ./quarto-1.8.27-linux-amd64.deb \
+   r-base-core \
+   texlive-luatex \
+   texlive-latex-extra
 COPY --from=cran_packages_preloaded /usr/local/lib/R/site-library /usr/local/lib/R/site-library
 #section-end
-RUN apt-get -y install npm
+RUN apt-get update && apt-get -y install npm
 #section-end
 #section-start install user apps
-RUN apt-get -y install neovim
-RUN apt-get -y install tmux
-RUN apt-get -y install sshfs
-RUN apt-get -y install fzf
-RUN apt-get -y install man
-RUN apt-get -y install pandoc
-RUN apt-get -y install ncdu
+RUN apt-get update && apt-get -y install \
+   neovim \
+   tmux \
+   sshfs \
+   fzf \
+   man \
+   pandoc \
+   ncdu
 #section-start install cookiecutter
 COPY --from=pip_apps_preloaded /app/cookiecutter_venv /app/cookiecutter_venv
 #section-end
 #section-start install httpie
 RUN curl -SsL https://packages.httpie.io/deb/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/httpie.gpg
 RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/httpie.gpg] https://packages.httpie.io/deb ./" | sudo tee /etc/apt/sources.list.d/httpie.list > /dev/null
-RUN sudo apt-get update
-RUN sudo apt-get -y install httpie
+RUN sudo apt-get update && \
+   sudo apt-get -y install httpie
 #section-end
 #section-end
 #section-start install file viewers
-RUN apt-get -y install feh
-RUN apt-get -y install zathura
+RUN apt-get update && apt-get -y install \
+   feh \
+   zathura
 #section-start install ocp_vscode server
 COPY --from=pip_apps_preloaded /app/ocp_vscode_venv /app/ocp_vscode_venv
 #section-end
@@ -195,7 +199,7 @@ COPY files/readmd.sh .
 #section-start install supporting libraries
 #section-start install libgl-dev
 #this is a dependency for build123d
-RUN apt-get -y install libgl-dev
+RUN apt-get update && apt-get -y install libgl-dev
 #section-end
 #section-end
 #section-end
