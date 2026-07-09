@@ -229,9 +229,6 @@ RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config
 #section-start copy readme to home!
 COPY README.txt /home/${USER_NAME}/README.txt
 #section-end
-#section-start copy git notes to home!
-COPY /files/git_notes.txt /home/${USER_NAME}/git_notes.txt
-#section-end
 #section-start save the primary username somewhere the root activate process can see it.
 RUN echo "$USER_NAME" > /app/primary_username.txt
 #section-end
