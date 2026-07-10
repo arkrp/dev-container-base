@@ -246,7 +246,7 @@ RUN cd /etc && curl -O https://raw.githubusercontent.com/git/git/master/contrib/
 #section-end
 #section-end
 #section-start install nvim configuration
-ARG NVIM_GIT_COMMIT="49537aa161bb156732610645b2b0ea3e26ce2237"
+ARG NVIM_GIT_COMMIT="3ba0d04ffb2be787342f03bb53700c7b9b873c19"
 RUN sudo -u ${USER_NAME} mkdir /home/${USER_NAME}/.config/nvim
 RUN sudo -u ${USER_NAME} git clone https://github.com/arkrp/vimrc.git /home/${USER_NAME}/.config/nvim
 RUN cd /home/${USER_NAME}/.config/nvim/ && sudo -u ${USER_NAME} git remote set-url origin git@github.com:arkrp/vimrc.git
